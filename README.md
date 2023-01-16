@@ -1,7 +1,6 @@
 # Sqldemo
 
-Q3:
-Consider the schema for Movie Database:
+
 ACTOR(Act_id, Act_Name, Act_Gender)
 DIRECTOR(Dir_id, Dir_Name, Dir_Phone)
 MOVIES(Mov_id, Mov_Title, Mov_Year, Mov_Lang, Dir_id)
@@ -109,7 +108,7 @@ QUERIES
 
 
 
-Q 3.1. List the titles of all movies directed by ‘Hitchcock’.
+1. List the titles of all movies directed by ‘Hitchcock’.
 
 mysql> select mov_title from Movies where dir_id in (select dir_id from Director where dir_name='Hitchcock');
 +------------+
@@ -121,7 +120,7 @@ mysql> select mov_title from Movies where dir_id in (select dir_id from Director
 2 rows in set (0.00 sec)
 
 
-Q3.2. Find the movie names where one or more actors acted in two or more movies.
+2. Find the movie names where one or more actors acted in two or more movies.
 
 mysql> select distinct m.mov_title,c.act_id from Movies m, Movie_cast c where m.mov_id=c.mov_id and c.act_id in (select act_id from Movie_cast group by act_id having count(mov_id)>1);
 
@@ -137,7 +136,7 @@ mysql> select distinct m.mov_title,c.act_id from Movies m, Movie_cast c where m.
 | Captain America |   1005 |
 +-----------------+--------+
 
-Q3.3. List all actors who acted in a movie before 2000 and also in a movie after
+3. List all actors who acted in a movie before 2000 and also in a movie after
 2015 (use JOIN operation).
 
 mysql> select act_name from Actor where act_id in(select a.act_id from (select act_id from Movie_cast natural join Movies where mov_year<2000)a inner join  (select act_id from Movie_cast natural join Movies where mov_year>2015)b on a.act_id=b.act_id);
@@ -149,7 +148,7 @@ mysql> select act_name from Actor where act_id in(select a.act_id from (select a
 +--------------+
 1 row in set (0.00 sec)
 
-Q3.4. Find the title of movies and number of stars for each movie that has at least
+4. Find the title of movies and number of stars for each movie that has at least
 one rating and find the highest number of stars that movie received. Sort the
 result by movie title.
 
@@ -165,7 +164,7 @@ mysql> select mov_title,max(rev_stars) from Movies m,Rating r where m.mov_id=r.m
 | Thor            |              4 |
 +-----------------+----------------+
 
-Q3.5.  Update rating of all movies directed by ‘Steven Spielberg’ to 5.
+5.  Update rating of all movies directed by ‘Steven Spielberg’ to 5.
 
 mysql> update Rating set rev_stars=5 where mov_id in (select mov_id from Movies inner join Director on Movies.dir_id=Director.dir_id and Director.dir_name='Steven Spielberg');
 Query OK, 1 row affected (0.00 sec)
